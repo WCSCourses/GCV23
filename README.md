@@ -9,3 +9,8 @@ The course is aimed at virology Clinical Scientists and Specialist Registrars wh
 [Course website](https://coursesandconferences.wellcomeconnectingscience.org/event/genomics-and-clinical-virology-20230611/)
 
 ## Instructors
+
+[Nick Loman](https://www.birmingham.ac.uk/staff/profiles/biosciences/loman-nick.aspx), University of Birmingham, UK
+[Tamyo Mbisa](https://bbsti.hpru.nihr.ac.uk/our-team/dr-tamyo-mbisa), UK Health Security Agency, UK
+[Emma Thomson](https://www.gla.ac.uk/schools/infectionimmunity/staff/emmathomson/), University of Glasgow, UK
+[Sreenu Vattipally](https://www.gla.ac.uk/schools/infectionimmunity/staff/sreenuvattipally/),  University of Glasgow, UK
