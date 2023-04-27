@@ -7,3 +7,5 @@ This Genomics and Clinical Virology course combines practical hands-on laborator
 The course is aimed at virology Clinical Scientists and Specialist Registrars who are planning to implement NGS in clinical diagnostic laboratories.Virology researchers at PhD, postdoc or more senior level who have an interest in learning how to carry out NGS of viral genomes are also encouraged to apply.
 
 [Course website](https://coursesandconferences.wellcomeconnectingscience.org/event/genomics-and-clinical-virology-20230611/)
+
+## Instructors
