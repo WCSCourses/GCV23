@@ -36,8 +36,7 @@ from collections import Counter, defaultdict
 from glob import glob
 from types import SimpleNamespace
 
-from utils import generalUtilities as gU
-from utils import taskHandler as taskHandler
+import generalUtilities as gU
 
 __version__ = "2.0.0"
 __date__ = "220329"
@@ -403,7 +402,7 @@ def QuasiBAM_args():
 
     args.cons = [*map(float, str(args.cons).split(","))]
     args.depth = [*map(int, str(args.depth).split(","))]
-
+    
     if len(args.cons) == 1 or len(args.depth) == 1 or args.product:
         args.cd = [*it.product(args.cons, args.depth)]
     elif len(args.cons) == len(args.depth):
@@ -521,10 +520,7 @@ def process_ref(name, seq):
     # Get the lines from <args.bam> with RNAME==<name> as a generator
     pc = gU.samtools("view", args.bam, name, func=sp.run)
     SAM_lines = pc.stdout.split("\n")
-    if len(SAM_lines) < args.min_reads:
-        args.log.error(f"{name}: Insufficient reads mapped")
-        return 1
-
+    
     r_arrs = gU.threaded(
         func=local_read_array,
         data=[
@@ -915,8 +911,9 @@ def QuasiBAM():
     "Main function."
 
     # CommandLine args - these override the workflow defaults
-    args = CommandLine_args()
-
+    args.__dict__.update(vars(CommandLine_args()))
+    args.log = gU.log
+    
     # Script-specific args
     if QuasiBAM_args():
         args.log.error(f"{args.fas}: Exiting. Check error log.")

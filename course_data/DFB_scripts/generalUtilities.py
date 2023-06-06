@@ -1,5 +1,6 @@
 "A set of functions used throughout Genomancer"
 
+import logging
 import os
 import re
 import sys
@@ -12,6 +13,7 @@ import itertools as it
 import multiprocessing as mp
 import numpy as np
 import pandas as pd
+import subprocess as sp
 
 __author__ = "David F Bibby"
 __version__ = "2.2.1"
@@ -22,12 +24,16 @@ __date__ = "230601"
 
 chain = it.chain.from_iterable
 
+def dummy_log(name="dummy"):
+    return logging.getLogger(name)
+
 def get_scriptPath(fname):
     return os.path.abspath(os.path.dirname(fname))
 
 def iter_zip(n, s):
     return zip(*[iter(s)] * n)
 
+log = dummy_log()
 
 #######################
 #      CONSTANTS      #
@@ -421,9 +427,6 @@ def modify_and_run(cmd, *args, **kwargs):
         cmd.append(final)
     else:
         cmd.extend(final)
-
-    if verbose:
-        log.cmdline(f'\t{" ".join(cmd)}')
 
     pc = func(cmd, stdout=stdout, stderr=stderr, stdin=stdin, text=text)
 
