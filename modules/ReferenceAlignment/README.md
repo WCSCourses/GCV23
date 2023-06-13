@@ -19,7 +19,7 @@ E-mail: Richard.Orton@glasgow.ac.uk
 
 ## Content:
 
-This practical is associated with a VirtualBox image containing the tools and data sets pre-installed, and an accompnaying lecture on Reference Alignment of High-Throughoput Sequencing (HTS) reads to a reference a sequence.
+This practical is associated with a VirtualBox image containing the tools and data sets pre-installed, and an associated lecture on Reference Alignment of High-Throughoput Sequencing (HTS) reads to a reference a sequence.
 
 * [0: Overview](#0-overview)
 * [1: Setup](#1-setup)
@@ -111,7 +111,7 @@ We will be aligning the paired end reads to the two reference sequences in turn.
  
 ## 1.1: Basic read statistics
 
-We will first use a tool called prinseq to count the number of reads in each file. As these are paired end reads, there should be one read from each read pair in each file – and hence the same number of reads in each file. We will also use prinseq to output statistics on the read lengths
+We will first use a tool called prinseq to count the number of reads in each file. As these are paired end reads, there should be one read from each read pair in each file – and hence the same number of reads in each file. We will also use prinseq to output statistics on the read lengths, but prinseq itself can do much much more.
 
 ```
 prinseq-lite.pl -stats_info -stats_len -fastq hcv_sim_R1.fq -fastq2 hcv_sim_R2.fq
@@ -127,7 +127,7 @@ prinseq-lite.pl -stats_info -stats_len -fastq hcv_sim_R1.fq -fastq2 hcv_sim_R2.f
 
 ### Common Issue
 * A common issue here is not entering the prinseq command on one line in the terminal - you should only use the enter key at the end of the command to execute it.
-* Another common issue is typos - check the command carefully if you get an error - it is likely you have a typo
+* Another common issue is typos - check the command carefully if you get an error - it is likely you have mispelled a file or argument
 
 ***
 ### Questions
@@ -136,7 +136,7 @@ prinseq-lite.pl -stats_info -stats_len -fastq hcv_sim_R1.fq -fastq2 hcv_sim_R2.f
 **Question 2** – What is the average (mean) length of the reads? 
 ***
 
-The statistics are split into those for the first FASTQ file of the read pair (e.g. stats\_info, stats\_len, etc) and those for the second FASTQ file of the read pair (e.g. stats\_info2, stats\_len2, etc), and should look a like this
+The statistics are split into those for the first FASTQ file of the read pair (e.g. stats\_info, stats\_len, etc) and those for the second FASTQ file of the read pair (e.g. stats\_info2, stats\_len2, etc), and should look a bit like this:
 
 ```
 stats_info	bases		48000000
@@ -161,7 +161,7 @@ stats_len2	range		1
 stats_len2	stddev		0.00 
 ```
 
-Paired read files should always have the same number of lines/reads (the ordering of the reads in each file is also critical), so if your two paired files have a different number of lines, something has gone wrong (e.g. filtering/trimming went wrong and corrupted the output, or maybe files from different samples are being used). 
+Paired read files should always have the same number of lines/reads (the ordering of the reads in each file is also critical), so if your two paired files have a different number of reads, something has gone wrong (e.g. filtering/trimming went wrong and corrupted the output, or maybe files from different samples are being used). 
  
 # 2: Read Alignment
 
@@ -177,7 +177,7 @@ First, we need to create a BWA index of the reference sequence. Tools such as BW
 bwa index 1b_hcv_ref.fasta
 ```
 
-If you list (ls) the contents of the Refs directory, you should see the BWA index files, they will all have the prefix 1b\_hcv\_ref.fasta, and will have extensions such as **.amb**, **.ann**, **.bwt**, **.pac**, and **.sa**.
+If you list (ls) the contents of the directory, you should see the BWA index files, they will all have the prefix 1b\_hcv\_ref.fasta, and will have extensions such as **.amb**, **.ann**, **.bwt**, **.pac**, and **.sa**.
 
 ```
 ls
@@ -201,10 +201,8 @@ bwa mem -t 4 1b_hcv_ref.fasta hcv_sim_R1.fq hcv_sim_R2.fq > 1b.sam
 6. **hcv\_sim\_R2.fq** = the name of read file 2
 7. **>** = direct the output into a file
 8. **1b.sam** = the name of the output SAM file to create 
- 
-Typically, a SAM file contains a single line for each read alignment in the data set, and this line stores a single alignment result (reference name, alignment location, CIGAR string, the read sequence itself, read quality, etc). 
 
-Overall, this will create an output file called 1b.sam in the current directory, which contains the results (in SAM format) of aligning all our reads to the reference sequence 1b\_hcv\_ref.fasta.
+Overall, this command will create an output file called 1b.sam in the current directory, which contains the results (in SAM format) of aligning all our reads to the reference sequence 1b\_hcv\_ref.fasta.
 
 When bwa has finished (and your prompt comes back), check that the SAM file has been created.
 
@@ -212,16 +210,16 @@ When bwa has finished (and your prompt comes back), check that the SAM file has 
 ls
 ```
 
-There should now be a file called 1b.sam in the directory.
+There should now be a file called **1b.sam** in the directory.
 
 ### Common issue
-A common mistake is not waiting for your previous command to finish, and entering the next command into the terminal before the prompt has returned. You need to wait until the **manager@GCV2023** command prompt returns before entering the next command.
+A common mistake is not waiting for your previous command to finish, and entering the next command into the terminal before the prompt has returned. You need to wait until the **manager@GCV2023** command prompt returns before entering the next command - the bwa alignment can sometimes take a few minutes.
 
 ## 2.3: Converting SAM to BAM
 
 Typically, a SAM file contains a single line for each read in the data set, and this line stores the alignment result of each read (reference name, alignment location, CIGAR string, the read sequence itself, quality, etc).
 
-SAM files are in a text format (which you can open and view if you like: head 1b.sam), but can take up a lot of disk storage space. It is good practice to convert your SAM files to BAM (Binary Alignment Map) files, which are compressed binary versions of the same data, and can be sorted and indexed easily to make searches faster. We will use samtools to convert our SAM to BAM, and sort and index the BAM file:
+SAM files are in a text format (which you can open and view if you like: head 1b.sam), but can take up a lot of disk storage space. It is good practice to convert your SAM files to BAM (Binary Alignment Map) files, which are compressed binary versions of the same data, and can be sorted and indexed easily to make searches faster. We will use [samtools](https://samtools.github.io) to convert our SAM to BAM, and sort and index the BAM file:
 
 ```
 samtools sort 1b.sam -o 1b.bam
@@ -249,7 +247,7 @@ ls -lh
 ```
 
 ***Command breakdown:***
--l tells the list command to give the output in a long list format, whilst the h tells it to provide file sizes in a human readable format, this is the 5th column, which will have the size of each file in a format such as 2.5M (M for megabytes) or 9.5G (G for gigabytes).
+* **-l** tells the list (**ls**) command to give the output in a long list format, whilst the **h** tells it to provide file sizes in a human readable format, this is the 5th column, which will have the size of each file in a format such as 2.5M (M for megabytes) or 9.5G (G for gigabytes).
 
 ***
 
@@ -268,10 +266,20 @@ rm 1b.sam
 
 ## 2.4: Basic alignment statistics
 
-[Samtools](https://samtools.github.io) is one of the key pieces of software in analyses involving High Throughput Sequencing (HTS) data, it has a wide range of functions and combines easily with related tools such as vcftools (for calling variants). One common thing to check is how many reads have aligned to the reference (called mapped), and how many did not (called unmapped). Samtools can report this for us easily, utilising the aligner SAM flags you learnt about in the previous session.
+One common thing to check is how many reads have been aligned (or mapped) to the reference, and how many are not aligned (or unmapped). Samtools can report this for us easily, utilising the aligner SAM flags you learnt about in the previous session.
 
-Reminder: the 2nd column in the SAM file contains the flag for the read alignment. If the flag includes the number 4 flag in its makeup then the read is unmapped, if it doesn’t include the number 4 in it's makeup
-then it is mapped.
+**Reminder:** the 2nd column in the SAM file contains the flag for the read alignment. If the flag includes the number 4 flag in its makeup then the read is unmapped, if it doesn’t include the number 4 in it's makeup then it is mapped.
+
+### Number of unmapped reads
+```
+samtools view -c -f4 1b.bam
+```
+
+***Command breakdown***
+
+1.	**samtools view** = to view the file 1b.bam
+2.	**–c** = count the read alignments
+3.	**–f4** = only include read alignments that do have the unmapped flag 4
 
 ### Number of mapped read alignments:
 ```
@@ -284,13 +292,6 @@ samtools view -c -F4 1b.bam
 2.	**–c** = count the read alignments
 3.	**–F4** = skip read alignments that contain the unmapped Flag 4 
 
-### Number of unmapped reads
-```
-samtools view -c -f4 1b.bam
-```
-
-This time we use –f4, only include read alignments that do have the unmapped flag 4
-
 ***
 ### Questions
 
@@ -299,21 +300,23 @@ This time we use –f4, only include read alignments that do have the unmapped f
 **Question 5** – how many reads are unmapped?
 ***
 
-Technically, the above command gives the number of mapped read alignments not reads. A read could be mapped equally well to multiple positions (one will be called the primary alignment, and others secondary alignments [sam flag 256]), or a read could be split into two parts (e.g. spliced) with one part being the primary alignment and the others supplementary [sam flag 2048]
+Technically, the above command gives the number of mapped read **alignments** not reads. A read could be mapped equally well to multiple positions (one will be called the primary alignment, and others secondary alignments [sam flag 256]), or a read could be split into two parts (e.g. spliced) with one part being the primary alignment and the others supplementary [sam flag 2048]
 
 So to get the true number of mapped reads you need to count only the alignments that do not have flags 4 (unmapped), 256 (not primary), and 2048 (supplementary) = 4 + 256 + 2048 = 2308
 
-### Number of mapped read reads
-```
-samtools view -c -F2308 1b.bam
-```
-or
+### Number of mapped reads
 
 ```
 samtools view -c -F4 -F256 -F2048 1b.bam
 ```
 
-For small RNA viruses, secondary and supplementary alignments tend to be rare. 
+or summing up the F flag values together:
+
+```
+samtools view -c -F2308 1b.bam
+```
+
+For small RNA viruses, secondary and supplementary alignments tend to be rare, but it is important to know the distinction between mapped **reads** and mapped read **alignments**.
 
 # 3: Alignment on your own
 
@@ -361,7 +364,7 @@ samtools view -c -F2308 1b.bam
 
 If you are looking for something extra to do, there are additional data sets located in the folder:
 
-### ~/Training/Richard/Ebola/
+### ~/Richard/Ebola/
 
 You will find a set of (gzipped) FASTQ paired end read files, and a reference FASTA sequence to align them to.
 
@@ -371,11 +374,11 @@ The reference ebola sequence is from a 2007 outbreak in Democratic Republic of C
 
 Try aligning the reads to the reference yourself.
 
-### ~/Training/Richard/Noisey/
+### ~/Richard/Noisey/
 
 This is a real HCV sample, but the read quality is quite poor making it quite noisey. Again, two HCV ref sequences are supplied (HCV_1a and HCV_1B). Align the paired end reads to each reference and determine what subtype the sample is by comparing mapping and coverage statistics.
 
-### ~/Training/Richard/Mystery/
+### ~/Richard/Mystery/
 
 This is a mystery sample, combine all the given references sequences into one file using the “cat” command, align the reads to that combined reference and then determine what the virus in the sample is.
  
@@ -385,7 +388,7 @@ In this practical, we will be checking our reference assembly from the previous 
 
 ## 5.1: Setup
 
-In the previous session, you should have tanoti aligned the paired reads onto two different HCV genomes (types 1a and 1b).
+In the previous session, you should have bwa aligned the paired reads onto two different HCV genomes (types 1a and 1b).
 
 This should have resulted in two BAM files in your HCV folder, lets check:
 
@@ -413,7 +416,7 @@ We need all these files to proceed, so if you don’t have them – ask for help
 
 ## 5.2: Summary Statistics with weeSAM
 
-We previously used samtools to count the number of mapped and unmapped reads (using the command samtools view -c -F4 1a.bam), which suggested that HCV 1a was a better reference sequence for our sample based on a greater number of mapped reads, but let’s explore this is more detail using a tool called weeSAM: https://github.com/centre-for-virus-research/weeSAM
+We previously used samtools to count the number of mapped and unmapped reads (using samtools view -c commands), which suggested that HCV 1a was a better reference sequence for our sample based on a greater number of mapped reads, but let’s explore this is more detail using a tool called weeSAM: https://github.com/centre-for-virus-research/weeSAM
 
 weeSAM analyses a SAM or BAM file, generates a graphical coverage plot, and reports a range of summary statistics such as:
 
@@ -431,7 +434,7 @@ weeSAM analyses a SAM or BAM file, generates a graphical coverage plot, and repo
 * **Above\_1.8_Depth**: Percentage of sites which have greater than 1.8 * Avg_Depth.
 * **Variation\_Coefficient**: The mean of Std_Dev of the mean.
 
-The Average Depth (Avg_Depth) is perhaps the most important field, along with Breadth which will tell you how much of the genome is covered by aligned reads. But the fields such as StdDev and Above_0.2_Depth can give an indication of the variability in the coverage across the genome.
+The Average Depth (Avg_Depth) is perhaps the most important field, along with Breadth which will tell you how much of the genome is covered by aligned reads. But the fields such as Std\_Dev and Above_0.2_Depth can give an indication of the variability in the coverage across the genome.
 
 Let’s run weeSAM on our samples:
 
@@ -445,9 +448,9 @@ An explanation of this command is:
 2.	**--bam**: flag to signify input bam file
 3.	**1b.bam**: the name of our bam file to analyse
 4.	**--html**: flag to signify output html file
-5.	**1b**: the name to label the output html file
+5.	**1b**: the name prefix to use for the output
 
-If you list the contents of the directory you should see that the folder 1b_html_results has been created:
+If you list the contents of the directory you should see that a folder called **1b\_html\_results** has been created:
 
 ```
 ls
@@ -478,10 +481,10 @@ The x-axis represents the genome position, whilst the y-axis represents the Dept
 
 Although you do expect variation in coverage across the genome, the numerous regions of near zero coverage suggest that the HCV 1b reference is not ideal, and the aligner has struggled to effectively map reads onto it in this regions – presumably because the reference is too divergent from the viral population in the sample at these regions. 
 
-Close FireFox and the weeSAM display before proceeding! 
+**Close the weeSAM and Firefox windows before proceeding!**
 
 ### Common issue
-A common issue here is due to the fact that we have launched firefox from the terminal (wihtout running it background - see advanced linux commands). In order to get our command promot nack (the manager@GCV2023) we need to close firefox window down.
+A common issue here is due to the fact that we have launched firefox from the terminal (wihtout running it background - see advanced linux commands). In order to get our command prompt back (the manager@GCV2023) we need to close the firefox window down, the prompt should then return.
 
 ## 5.3: Coverage plot on your own
 
@@ -514,7 +517,7 @@ To launch Tablet, type:
 tablet
 ```
 
-**NB:** You will not be able to use this command line for other things until you have closed down tablet – but you can open another command line window if you want to leave tablet open and do other things.
+**NB:** You will not be able to use this command line for other things until you have closed down tablet – but you can open another command line window (or tab) if you want to leave tablet open and do other things.
 
 You should see the Tablet graphical user interface:
 
