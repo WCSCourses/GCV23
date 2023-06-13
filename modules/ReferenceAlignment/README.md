@@ -1,13 +1,13 @@
 # Reference Alignment Practical
 
-## Course Details:
+## Course Details
 
 * [GCV2023: Genomics and Clinical Virology 2023](https://coursesandconferences.wellcomeconnectingscience.org/event/genomics-and-clinical-virology-20230611/)
 * 11th-16th June 2023
 * Wellcome Genome Campus, UK
 * [https://github.com/WCSCourses/GCV23](https://github.com/WCSCourses/GCV23)
 
-## Contact Details:
+## Contact Details
 
 [Dr. Richard Orton](https://www.gla.ac.uk/researchinstitutes/iii/staff/richardorton/)  
 [Medical Research Council– University of Glasgow Centre for Virus Research](https://www.gla.ac.uk/research/az/cvr/)  
@@ -17,7 +17,7 @@ G61 1QH
 
 E-mail: Richard.Orton@glasgow.ac.uk
 
-## Content:
+## Contents
 
 This practical is associated with a VirtualBox image containing the tools and data sets pre-installed, and an associated lecture on Reference Alignment of High-Throughoput Sequencing (HTS) reads to a reference a sequence.
 
@@ -464,7 +464,7 @@ firefox 1b_html_results/1b.html
 
 You should see something like this:
 
-*INSERT WEESAM PICTURE HERE*
+![](https://github.com/WCSCourses/GCV23/blob/main/modules/ReferenceAlignment/1b_weesam_summ.png)
 
 ***
 ### Questions
@@ -473,7 +473,7 @@ You should see something like this:
 
 Now let’s view the coverage plot by clicking on the hyperlink (blue and underlined) in the Ref_Name column, you should see a coverage plot similar to this:
 
-*INSERT WEESAM COVERAGE PICTURE HERE*
+![](https://github.com/WCSCourses/GCV23/blob/main/modules/ReferenceAlignment/1b_weesam.png)
 
 The x-axis represents the genome position, whilst the y-axis represents the Depth of Coverage at each genome position. 
 
