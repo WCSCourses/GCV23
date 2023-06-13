@@ -22,18 +22,18 @@ E-mail: Richard.Orton@glasgow.ac.uk
 This practical is associated with a VirtualBox image containing the tools and data sets pre-installed, and an accompnaying lecture on Reference Alignment of High-Throughoput Sequencing (HTS) reads to a reference a sequence.
 
 * [0: Overview](#0-overview)
-* [1: Setup](#0-setup)
+* [1: Setup](#1-setup)
 	+ [1.1: Basic read statistics](#11-basic-read-statistics)
 * [2: Read Alignment](#2-read-alignment)
 	+ [2.1: Indexing the reference sequence](#21-indexing-the-reference-sequence)
-	+ [2.2: Aligning the reads to the reference](#22-aligning-the-reads-to-the-reference])
-	+ [2.3: Convert the SAM to a BAM file](#23-convert-the-SAM-to-a-BAM-file)
+	+ [2.2: Aligning the reads to the reference](#22-aligning-the-reads-to-the-reference)
+	+ [2.3: Converting SAM to BAM](#23-converting-SAM-to-BAM)
 	+ [2.4: Basic alignment statistics](#24-basic-alignment-statistics)
 * [3: Alignment on your own](#3-alignment-on-your-own)
 * [4: Extra data](#4-extra-data)
 * [5: Assembly Visualisation and Statistics Practical](#5-assembly-visualisation-and-statistics-practical)
-	+ [5.1: Setup](#51-setip)
-	+ [5.2: Summary Statistics - weeSAM](#52-summary-statistics-weeSAM)
+	+ [5.1: Setup](#51-setup)
+	+ [5.2: Summary Statistics with weeSAM](#52-summary-statistics-with-weeSAM)
 	+ [5.3: Coverage plot on your own](#53-coverage-plot-on-your-own)
 	+ [5.4: Visualisation with Tablet](#54-visualisation-with-tablet)
  
@@ -217,7 +217,7 @@ There should now be a file called 1b.sam in the directory.
 ### Common issue
 A common mistake is not waiting for your previous command to finish, and entering the next command into the terminal before the prompt has returned. You need to wait until the **manager@GCV2023** command prompt returns before entering the next command.
 
-## 2.3: Convert the SAM to a BAM file
+## 2.3: Converting SAM to BAM
 
 Typically, a SAM file contains a single line for each read in the data set, and this line stores the alignment result of each read (reference name, alignment location, CIGAR string, the read sequence itself, quality, etc).
 
@@ -411,7 +411,7 @@ Along with the two reference sequences:
 
 We need all these files to proceed, so if you don’t have them – ask for help and we can copy across pre-computed versions.
 
-## 5.2: Summary Statistics - weeSAM
+## 5.2: Summary Statistics with weeSAM
 
 We previously used samtools to count the number of mapped and unmapped reads (using the command samtools view -c -F4 1a.bam), which suggested that HCV 1a was a better reference sequence for our sample based on a greater number of mapped reads, but let’s explore this is more detail using a tool called weeSAM: https://github.com/centre-for-virus-research/weeSAM
 
