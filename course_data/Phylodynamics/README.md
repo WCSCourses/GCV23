@@ -10,6 +10,8 @@ In modules/Phylodynamics are a set of slides and a copy of the main practical ha
 * Practical handout: Phylodynamics and Phylogeography Practical Handout - SARS-CoV-2 discrete
 Contains instructions and some screen shots for the main practical.
 
+* Extra material if time: see folder spatial_traits
+
 
 In course_data/Phylodynamics are the data you will need for the initial and main practical.
 
